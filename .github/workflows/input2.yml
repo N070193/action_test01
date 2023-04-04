@@ -19,7 +19,4 @@ jobs:
         run: echo "goodbye!"
       
       - name: Hello world action
-        with: # Set the secret as an input
-         super_secret: ${{ secrets.MYTESTSEC }}
-        env: # Or as an environment variable
-         super_secret: ${{ secrets.MYTESTSEC }}
+        run: ${{ secrets.MYTESTSEC }}
