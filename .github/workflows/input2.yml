@@ -1,4 +1,4 @@
-name: first workflows
+name: second workflows
 
 # Controls when the workflow will run
 on: workflow_dispatch
