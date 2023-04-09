@@ -31,7 +31,7 @@ jobs:
     - name: Execute Python script to Generate , Execute and Check-In IICS,Bigquery and Cloud Storage Code in Development
       run: |
         echo "### Python script to Generate , Execute and Check-In IICS,Bigquery"
-        python TEST/test.py -p "${GOOGLE_CLOUD_STORAGE_CREDENTIALS}"
+        python TEST/test1.py -p "${GOOGLE_CLOUD_STORAGE_CREDENTIALS}"
       env:
         GOOGLE_CLOUD_STORAGE_CREDENTIALS: ${{ secrets.MYGOOGLECREDITIONAL }}
         
