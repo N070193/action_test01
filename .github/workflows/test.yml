@@ -13,13 +13,7 @@ jobs:
         repo-token: ${{ secrets.GITHUB_TOKEN }}
                
     - name: Checkout repository content
-      uses: actions/checkout@v2 # Checkout the repository content to github runner.
-      
-    - name: Echo out a GitHub Actions Secret to the file for Authentication to Google Cloud
-      run: |
-          echo $GOOGLE_CLOUD_STORAGE_CREDENTIALS > IICS_auto/gpc/GCP_KEY2.json;
-      env:
-        GOOGLE_CLOUD_STORAGE_CREDENTIALS: ${{ secrets.MYGOOGLECREDITIONAL }}           
+      uses: actions/checkout@v2 # Checkout the repository content to github runner.          
 
     - name: Setup Python Version
       uses: actions/setup-python@v2
