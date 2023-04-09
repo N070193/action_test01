@@ -1,3 +1,4 @@
+import argparse
 from google.cloud import bigquery
 from google.oauth2 import service_account
 
