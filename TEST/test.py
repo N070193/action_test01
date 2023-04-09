@@ -9,9 +9,11 @@ parser.add_argument('-p', '--path', help="Path",action="store", required=True)
 # parse the arguments
 args = parser.parse_args()
 # deployment_file= args.deployment_file
-GOOGLE_CLOUD_STORAGE_CREDENTIALS = args.path
+#GOOGLE_CLOUD_STORAGE_CREDENTIALS = args.path
 
-credentials = service_account.Credentials.from_service_account_file(GOOGLE_CLOUD_STORAGE_CREDENTIALS)
+json_file=json.load(args.path)
+
+credentials = service_account.Credentials.from_service_account_file(json_file)
 
 project_id = 'bigquery-demo-377718'
 client = bigquery.Client(credentials= credentials,project=project_id)
