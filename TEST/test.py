@@ -1,3 +1,4 @@
+import argparse
 from google.cloud import bigquery
 
 parser = argparse.ArgumentParser(description="main")
