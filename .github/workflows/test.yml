@@ -2,6 +2,11 @@ name: test_workflow
 
 on:
   workflow_dispatch:
+    inputs:
+      PY_INPUT:
+        description: 'Provide py file name'
+        default: 'test1.py'
+        required: true
 
 jobs:
   Build:
@@ -32,7 +37,7 @@ jobs:
     - name: Execute Python script to Generate , Execute and Check-In IICS,Bigquery and Cloud Storage Code in Development
       run: |
         echo "### Python script to Generate , Execute and Check-In IICS,Bigquery"
-        python TEST/test2.py -p "${GOOGLE_CLOUD_STORAGE_CREDENTIALS}"
+        python TEST/"${{ github.event.inputs.PY_INPUT }}" -p "${GOOGLE_CLOUD_STORAGE_CREDENTIALS}"
       env:
         GOOGLE_CLOUD_STORAGE_CREDENTIALS: ${{ secrets.MYGOOGLECREDITIONAL }}
         
