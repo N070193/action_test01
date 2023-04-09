@@ -11,19 +11,22 @@ parser.add_argument('-p', '--path', help="Path",action="store", required=True)
 args = parser.parse_args()
 # deployment_file= args.deployment_file
 GOOGLE_CLOUD_STORAGE_CREDENTIALS = args.path
-print(GOOGLE_CLOUD_STORAGE_CREDENTIALS)
+#print(GOOGLE_CLOUD_STORAGE_CREDENTIALS)
 
-# credentials = service_account.Credentials.from_service_account_file(json_file)
+with open(GOOGLE_CLOUD_STORAGE_CREDENTIALS,'r') as files:
+  json_file=json.load(files)
 
-# project_id = 'bigquery-demo-377718'
-# client = bigquery.Client(credentials= credentials,project=project_id)
+credentials = service_account.Credentials.from_service_account_file(json_file)
 
-# query_job = client.query("""
-#    SELECT *
-#    FROM dataset_py.table_py
-#    LIMIT 1000 """)
+project_id = 'bigquery-demo-377718'
+client = bigquery.Client(credentials= credentials,project=project_id)
 
-# results = query_job.result() # Wait for the job to complete.
+query_job = client.query("""
+   SELECT *
+   FROM dataset_py.table_py
+   LIMIT 1000 """)
+
+results = query_job.result() # Wait for the job to complete.
 
 # parser = argparse.ArgumentParser(description="main")
 # parser.add_argument('-p', '--path', help="Path",action="store", required=True)
