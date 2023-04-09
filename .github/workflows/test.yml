@@ -1,0 +1,43 @@
+name: test_workflow
+
+on:
+  workflow_dispatch:
+
+jobs:
+  Build:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/labeler@v4
+      with:
+        repo-token: ${{ secrets.GITHUB_TOKEN }}
+               
+    - name: Checkout repository content
+      uses: actions/checkout@v2 # Checkout the repository content to github runner.
+      
+    - name: Echo out a GitHub Actions Secret to the file for Authentication to Google Cloud
+      run: |
+          echo $GOOGLE_CLOUD_STORAGE_CREDENTIALS > IICS_auto/gpc/GCP_KEY2.json;
+      env:
+        GOOGLE_CLOUD_STORAGE_CREDENTIALS: ${{ secrets.MYGOOGLECREDITIONAL }}           
+
+    - name: Setup Python Version
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.8 # Install the python version needed
+             
+    - name: Install Python dependencies
+      run: |
+        echo "### Install Python dependencies :rocket:" >> $GITHUB_STEP_SUMMARY
+        python -m pip install --upgrade pip requests;
+        python -m pip install --upgrade pip;
+        python -m pip install google-cloud-bigquery;
+        
+
+    - name: Execute Python script to Generate , Execute and Check-In IICS,Bigquery and Cloud Storage Code in Development
+      run: |
+        echo "### Python script to Generate , Execute and Check-In IICS,Bigquery"
+        python TEST/test.py -p "${GOOGLE_CLOUD_STORAGE_CREDENTIALS}"
+      env:
+        GOOGLE_CLOUD_STORAGE_CREDENTIALS: ${{ secrets.MYGOOGLECREDITIONAL }}
+        
