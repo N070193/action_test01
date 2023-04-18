@@ -1,13 +1,24 @@
 name: First Workflow
 on: workflow_dispatch
 jobs:
-  first-job:
+  build:
     runs-on: ubuntu-latest
     steps:
-      - name: Print greeting
-        run: echo "Hello World!"
-      - name: Hello world action
-        with: # Set the secret as an input
-          super_secret: ${{ secrets.MYTESTSEC }}
-        env: # Or as an environment variable
-          super_secret: ${{ secrets.MYTESTSEC }}
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set environment variables for Oracle database connection
+        run: |
+          echo "export ORACLE_USER=username" >> $GITHUB_ENV
+          echo "export ORACLE_PASSWORD=password" >> $GITHUB_ENV
+          echo "export ORACLE_PORT=1521" >> $GITHUB_ENV
+          echo "export ORACLE_SID=ORCLCDB" >> $GITHUB_ENV
+
+      - name: Download and run Oracle database Docker container
+        run: |
+          docker run -d -it --name oracle -p 1521:1521 store/oracle/database-enterprise:12.2.0.1
+
+      - name: Wait for Oracle database to start
+        run: |
+          until docker exec oracle bash -c "echo exit | sqlplus -L $ORACLE_USER/$ORACLE_PASSWORD@localhost:$ORACLE_PORT/$ORACLE_SID"; do sleep 10; done
+
